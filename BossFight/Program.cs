@@ -17,24 +17,27 @@ namespace BossFight
             int bossHP = 1000;
 
             int damageFromEnemy = 0;
+            int dividerDamageEnemy = 2;
             int rashamon = 100;
             int huganzakura = 200;
             int interdimensionalRift = 250;
             int fireBalls = 65;
 
             string spellNumber;
-            var rand = new Random();
+            var random = new Random();
             int bossMagicDamage;
+            int maxBossMagicDamage = 100;
+            int minBossMagicDamage = 50;
 
             while (isGameProcess)
             {
                 Console.WriteLine("Ваш HP: " + playerHP);
                 Console.WriteLine("HP босса: " + bossHP);
                 Console.WriteLine("\n Ты можешь выбрать из 4 заклинаний:");
-                Console.WriteLine("[1] Рашамон - призывает духа тени для начала атаки (стоимость 100 HP)");
-                Console.WriteLine("[2] Хуганзакура - удар алмазными шипами (урон 200, можно использовать только после Рашамона).");
-                Console.WriteLine("[3] Межпространственный разлом - скрывает вас и восстанавливает 250 hp.");
-                Console.WriteLine("[4] Огненный шар - наносит Боссу урон 65 и восстанавливает 50% урона от врага. \n");
+                Console.WriteLine($"[1] Рашамон - призывает духа тени для начала атаки (стоимость {rashamon} HP)");
+                Console.WriteLine($"[2] Хуганзакура - удар алмазными шипами (урон {huganzakura}, можно использовать только после Рашамона).");
+                Console.WriteLine($"[3] Межпространственный разлом - скрывает вас и восстанавливает {interdimensionalRift} HP.");
+                Console.WriteLine($"[4] Огненный шар - наносит Боссу урон {fireBalls} и восстанавливает 50% урона от врага. \n");
                 Console.WriteLine("Введите номер заклинания: ");
 
                 spellNumber = Console.ReadLine();
@@ -44,7 +47,7 @@ namespace BossFight
                     case "1":
                         playerHP -= rashamon;
                         isRashamonEffect = true;
-                        Console.WriteLine(" Вы использовали заклинание Рашамон и потратили " +  rashamon + " HP");
+                        Console.WriteLine($"Вы использовали заклинание Рашамон и потратили {rashamon} HP");
                         break;
                     case "2":
                         if (isRashamonEffect == true)
@@ -61,19 +64,19 @@ namespace BossFight
                     case "3":
                         isInterdimensionalRift = true;
                         playerHP += interdimensionalRift;
-                        Console.WriteLine("Вы использовали Межпространственный разлом. Вы скрылись от босса и восстановили 250 HP.");
+                        Console.WriteLine($"Вы использовали Межпространственный разлом. Вы скрылись от босса и восстановили {interdimensionalRift} HP.");
                         break;
                     case "4":
                         bossHP -= fireBalls;
-                        damageFromEnemy /= 2;
+                        damageFromEnemy /= dividerDamageEnemy;
                         playerHP += damageFromEnemy;
-                        Console.WriteLine("Вы нанесли урон Боссу 65 и восстановили 50% HP от урона.");
+                        Console.WriteLine($"Вы нанесли урон Боссу {fireBalls} и восстановили {damageFromEnemy } HP.");
                         break;
                     default:
                         break;
                 }
 
-                bossMagicDamage = rand.Next(50, 100);
+                bossMagicDamage = random.Next(minBossMagicDamage, maxBossMagicDamage);
                 if (isInterdimensionalRift == true)
                 {
                     isInterdimensionalRift = false;
@@ -83,7 +86,7 @@ namespace BossFight
                 {
                     playerHP -= bossMagicDamage;
                     damageFromEnemy += bossMagicDamage;
-                    Console.WriteLine("Босс атакует и наносит урон " + bossMagicDamage + ".");
+                    Console.WriteLine($"Босс атакует и наносит урон {bossMagicDamage}.");
                 }
 
                 if (playerHP <= 0)
